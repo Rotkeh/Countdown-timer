@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export function CountdownTimer() {
   const [timeLeft, setTimeLeft] = useState<number>(60);
   const [isActive, setIsActive] = useState<boolean>(false);
   const timerRef = useRef<number>();
   const startTime = useRef<number>(60);
+  const updatedStartTime = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (isActive && timeLeft > 0) {
@@ -22,13 +23,11 @@ export function CountdownTimer() {
   return (
     <div>
       <h1>Nedräkningstimer</h1>
-      <input
-        type="text"
-        onChange={(e) => (startTime.current = parseInt(e.target.value))}
-      />
+      <input type="number" ref={updatedStartTime} />
       <button
         onClick={() => {
           setIsActive(false);
+          startTime.current = parseInt(updatedStartTime.current!.value);
           setTimeLeft(startTime.current);
         }}
       >
